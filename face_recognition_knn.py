@@ -43,7 +43,7 @@ from face_recognition.face_recognition_cli import image_files_in_folder
 ALLOWED_EXTENSIONS = {'png', 'jpg', 'jpeg'}
 
 
-def train(train_dir, model_save_path=None, n_neighbors=None, knn_algo='ball_tree', verbose=False):
+def train(train_dir, model_save_path=None, n_neighbors=None, knn_algo='ball_tree', verbose=True):
     """
     Trains a k-nearest neighbors classifier for face recognition.
 
@@ -108,7 +108,7 @@ def train(train_dir, model_save_path=None, n_neighbors=None, knn_algo='ball_tree
     return knn_clf
 
 
-def predict(X_img_path, knn_clf=None, model_path=None, distance_threshold=0.6):
+def predict(X_img_path, knn_clf=None, model_path=None, distance_threshold=0.5):
     """
     Recognizes faces in given image using a trained KNN classifier
 
@@ -185,12 +185,12 @@ if __name__ == "__main__":
     # STEP 1: Train the KNN classifier and save it to disk
     # Once the model is trained and saved, you can skip this step next time.
     print("Training KNN classifier...")
-    classifier = train("knn_examples/train", model_save_path="trained_knn_model.clf", n_neighbors=2)
+    #classifier = train("train", model_save_path="trained_knn_model.clf")
     print("Training complete!")
 
     # STEP 2: Using the trained classifier, make predictions for unknown images
-    for image_file in os.listdir("knn_examples/test"):
-        full_file_path = os.path.join("knn_examples/test", image_file)
+    for image_file in os.listdir("test"):
+        full_file_path = os.path.join("test", image_file)
 
         print("Looking for faces in {}".format(image_file))
 
@@ -203,4 +203,4 @@ if __name__ == "__main__":
             print("- Found {} at ({}, {})".format(name, left, top))
 
         # Display results overlaid on an image
-        show_prediction_labels_on_image(os.path.join("knn_examples/test", image_file), predictions)
+        show_prediction_labels_on_image(os.path.join("test", image_file), predictions)
